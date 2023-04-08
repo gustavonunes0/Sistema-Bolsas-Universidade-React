@@ -18,7 +18,7 @@ const NavBar = () => {
               </Link>
             </S.MenuItem>
             <S.MenuItem>
-              <Link href={{ pathname: "/dashboardEstudante" }} style={{textDecoration: 'none', color: '#fff'}}>
+              <Link href={{ pathname: "/dashboardCoord" }} style={{textDecoration: 'none', color: '#fff'}}>
                 Dashboard
               </Link>            
             </S.MenuItem>
