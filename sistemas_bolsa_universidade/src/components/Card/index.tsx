@@ -8,6 +8,8 @@ type CardProps = {
   status: string;
   details: string;
   postId: number;
+  startDate: string;
+  endDate: string;
   setSelectedPostId: React.Dispatch<React.SetStateAction<number | null>>;
 };
 
@@ -16,6 +18,8 @@ const Card: React.FC<CardProps> = ({
   course,
   status,
   postId,
+  startDate,
+  endDate,
   setSelectedPostId,
   details,
 }) => {
@@ -29,6 +33,8 @@ const Card: React.FC<CardProps> = ({
       <S.Titulo>{title}</S.Titulo>
       <S.Curso>{course}</S.Curso>
       <S.Status>{status}</S.Status>
+      <S.DataInicio>Inicio: {startDate}</S.DataInicio>
+      <S.DataTermino>Fim:{endDate}</S.DataTermino>
       <S.Botao onClick={handleClick}>Detalhes</S.Botao>
     </S.Container>
   );

@@ -7,16 +7,30 @@ export const Container = styled.div`
     padding: 10% 5% 0% 10%;
 `;
 
+export const Geral = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+`;
+
+export const BoxFiltro = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+export const BoxInfos = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
 export const BotaoBox = styled.div`
     display: flex;
     gap: 5%;
-    justify-content: end;
+    margin-bottom: 10%;
 `;
 
 export const Box = styled.div`
     display: flex;
     margin-bottom: 5%;
-    place-content: end;
     padding-right: 10%;
     gap: 3%;
 `;
@@ -24,6 +38,7 @@ export const Box = styled.div`
 export const Form = styled.div`
     display: flex;
     flex-direction: column;
+    margin-bottom: 5%;
 `;
 
 export const Titulo = styled.h1`
@@ -85,7 +100,7 @@ export const InputBox = styled.input`
 `;
 
 export const DropDown = styled.select`
-  width: 15%;
+  width: 25%;
   border: 1px solid #c4c4c4;
   height: 2.3rem;
   border-radius: .4rem;

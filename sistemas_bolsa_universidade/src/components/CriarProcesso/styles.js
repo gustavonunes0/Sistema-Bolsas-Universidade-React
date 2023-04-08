@@ -5,12 +5,13 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     font-family: 'Lato', sans-serif;
+    margin-bottom: 5%;
+    margin-top: -2%;
 `;
 
 export const BotaoBox = styled.div`
     display: flex;
     gap: 5%;
-    justify-content: end;
 `;
 
 export const Form = styled.div`

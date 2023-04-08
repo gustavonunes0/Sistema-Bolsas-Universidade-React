@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
-  height: 22rem;
+  height: 26rem;
   padding: 5%;
   box-shadow: 5px 8px 15px 2px #c4c4c4;
   border-radius: 2rem;
@@ -33,10 +33,18 @@ export const Status = styled.span`
   font-size: 0.9rem;
   color: #000;
 `;
+export const DataInicio = styled.span`
+  font-size: 0.9rem;
+  color: #000;
+`;
+export const DataTermino = styled.span`
+  font-size: 0.9rem;
+  color: #000;
+`;
 
 export const Botao = styled.button`
   width: 30%;
-  height: 3.8rem;
+  height: 5rem;
   background-color: #f4f4f4;
   box-shadow: .2rem .2rem 0rem 0rem #2B8A6F;
   border: none;

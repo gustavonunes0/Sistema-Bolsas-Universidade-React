@@ -19,8 +19,10 @@ return (
               <S.InputBox name="qtdBolsas" required/>
               <h3>Curso</h3>
               <S.InputBox name="course" required/>
-              <h3>Duração</h3>
-              <S.InputBox name="duration" required/>
+              <h3>Inicio</h3>
+              <S.InputBox name="startDate" required/>
+              <h3>Fim</h3>
+              <S.InputBox name="endDate" required/>
             </S.Form>
             <S.BotaoBox>
               <S.Botao>Salvar</S.Botao>

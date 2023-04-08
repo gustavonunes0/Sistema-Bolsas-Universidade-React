@@ -49,7 +49,16 @@ export const DropDown = styled.select`
   font-weight: bolder;
   color: #2B8A6F;
 `;
-
+export const DataInicio = styled.span`
+  font-size: 0.9rem;
+  color: #000;
+  align-self: end;
+`;
+export const DataTermino = styled.span`
+  font-size: 0.9rem;
+  color: #000;
+  align-self: end;
+`;
 export const Botao = styled.button`
   width: 100%;
   border: none;

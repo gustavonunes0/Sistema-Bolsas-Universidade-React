@@ -52,34 +52,57 @@ const DashboardEstudante = () => {
       <NavBar/>
       <S.Container>
         <S.TituloGeral>Aqui é o portal do Aluno, você pode ver todas as suas informações e as bolsas que você se inscreveu!</S.TituloGeral>
-        <S.Box>
-          <S.DropDown onChange={(e) => setSelectedStatus(e.target.value)}>
-            <option disabled selected hidden>Selecione...</option>
-            <option value="Encerrado">Encerrado</option>
-            <option value="Em andamento">Em andamento</option>
-          </S.DropDown>
-          <S.BotaoBuscar type="submit" onClick={handleBuscar}>Buscar</S.BotaoBuscar>
-        </S.Box>
-        {selectedOption === "Seus processos" && 
-          <ListaProcessos processos={processosFiltrados} onEditarProcesso={handleEditarProcesso} />
-        }
-        {selectedOption === "Criar processo" && (
-          <CriarProcesso />
-        )}
-        { idProcessoSelecionado !== null && (
-          <Modal isOpen={true} onClose={() => setIdProcessoSelecionado(null)}>
-            <S.Titulo>Processo {listaDeProcessos.find(p => p.idprocesso === idProcessoSelecionado)?.title || ''}</S.Titulo>
-            <S.Form>
-              <h3>Status</h3>
-              <S.InputBox name="status" disabled defaultValue={listaDeProcessos.find(p => p.idprocesso === idProcessoSelecionado)?.status || ''} />
+        <S.Geral>
+          <S.BoxInfos>
+          <S.Form>
+              <h3>Nome</h3>
+              <S.InputBox name="title" required/>
+              <h3>Email</h3>
+              <S.InputBox name="description" required/>
               <h3>Curso</h3>
-              <S.InputBox name="course" disabled defaultValue={listaDeProcessos.find(p => p.idprocesso === idProcessoSelecionado)?.course || ''} />
+              <S.InputBox name="qtdVagas" required/>
+              <h3>Senha</h3>
+              <S.InputBox name="qtdBolsas" required/>
+              <h3>Cargo</h3>
+              <S.InputBox disabled name="course" required/>
+              <h3>Historico</h3>
+              <input name="duration" type='file'/>
             </S.Form>
             <S.BotaoBox>
-              <S.Botao onClick={() => setIdProcessoSelecionado(null)}>Fechar</S.Botao>
+              <S.Botao>Salvar</S.Botao>
             </S.BotaoBox>
-          </Modal>
-        )}
+          </S.BoxInfos>
+          <S.BoxFiltro>
+            <S.Box>
+              <S.DropDown onChange={(e) => setSelectedStatus(e.target.value)}>
+                <option disabled selected hidden>Selecione...</option>
+                <option value="Encerrado">Encerrado</option>
+                <option value="Em andamento">Em andamento</option>
+              </S.DropDown>
+              <S.BotaoBuscar type="submit" onClick={handleBuscar}>Buscar</S.BotaoBuscar>
+            </S.Box>
+            {selectedOption === "Seus processos" && 
+              <ListaProcessos processos={processosFiltrados} onEditarProcesso={handleEditarProcesso} />
+            }
+            {selectedOption === "Criar processo" && (
+              <CriarProcesso />
+            )}
+            { idProcessoSelecionado !== null && (
+              <Modal isOpen={true} onClose={() => setIdProcessoSelecionado(null)}>
+                <S.Titulo>Processo {listaDeProcessos.find(p => p.idprocesso === idProcessoSelecionado)?.title || ''}</S.Titulo>
+                <S.Form>
+                  <h3>Status</h3>
+                  <S.InputBox name="status" disabled defaultValue={listaDeProcessos.find(p => p.idprocesso === idProcessoSelecionado)?.status || ''} />
+                  <h3>Curso</h3>
+                  <S.InputBox name="course" disabled defaultValue={listaDeProcessos.find(p => p.idprocesso === idProcessoSelecionado)?.course || ''} />
+                </S.Form>
+                <S.BotaoBox>
+                  <S.Botao onClick={() => setIdProcessoSelecionado(null)}>Fechar</S.Botao>
+                </S.BotaoBox>
+              </Modal>
+            )}
+          </S.BoxFiltro>
+        </S.Geral>
       </S.Container>
     </div>
   );

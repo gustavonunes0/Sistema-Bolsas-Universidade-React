@@ -9,8 +9,10 @@ const cardsData = [
   {
     title: 'Bolsa de pesquisa FUNCAP',
     course: 'ADS',
-    status: 'Aberto',
+    status: 'Encerrado',
     postId: 1,
+    startDate: '02/01/2023',
+    endDate: '02/03/2023',
     details: 'Essa bolsa é direcionada a alunos da UNIGU em parceria com a FUNCAP, iremos trabalhar pesquisando sobre inteligências artificiais',
   },
   {
@@ -18,6 +20,8 @@ const cardsData = [
     course: 'Eng. de Software',
     status: 'Encerrado',
     postId: 2,
+    startDate: '02/01/2023',
+    endDate: '02/03/2023',
     details: 'Nesta bolsa de estudo iremos desenvolver aplicações web utilizando C# para o back-end e ASP.NET para o front-end',
   },
   {
@@ -25,6 +29,8 @@ const cardsData = [
     course: 'Ciência da Computação',
     status: 'Aberto',
     postId: 3,
+    startDate: '02/01/2023',
+    endDate: '02/03/2023',
     details: '',
   },
   {
@@ -32,6 +38,8 @@ const cardsData = [
     course: 'Ciência da Computação',
     status: 'Aberto',
     postId: 4,
+    startDate: '02/01/2023',
+    endDate: '02/03/2023',
     details: '',
   },
   {
@@ -39,6 +47,8 @@ const cardsData = [
     course: 'Estátistica',
     status: 'Encerrado',
     postId: 5,
+    startDate: '02/01/2023',
+    endDate: '02/03/2023',
     details: '',
   }
 ];
@@ -135,6 +145,8 @@ const Home = () => {
                 status={card.status}
                 postId={card.postId}
                 details={card.details}
+                startDate={card.startDate}
+                endDate={card.endDate}
                 setSelectedPostId={setSelectedPostId}
               />
               {selectedPostId === card.postId && (
@@ -145,6 +157,8 @@ const Home = () => {
                     <S.Texto>Curso: {card.course}</S.Texto>
                     <S.Texto>Status: {card.status}</S.Texto>
                     <S.Texto>Descrição: {card.details}</S.Texto>
+                    <S.DataInicio>Inicio: {card.startDate}</S.DataInicio>
+                    <S.DataTermino>Fim: {card.endDate}</S.DataTermino>
                     <div style={{display: 'flex', gap: '5%', justifyContent: 'flex-end', height: '100%'}}>
                       <S.BotaoModal onClick={() => setSelectedPostId(null)}>Fechar</S.BotaoModal>
                       <S.BotaoModal>Inscreva-se</S.BotaoModal>
