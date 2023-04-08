@@ -8,31 +8,31 @@ import Modal from '@/components/Modal';
 const DashboardEstudante = () => {
   const [selectedOption, setSelectedOption] = useState("Seus processos");
   const [idProcessoSelecionado, setIdProcessoSelecionado] = useState<number | null>(null);
-  
+  const [selectedStatus, setSelectedStatus] = useState("");
   
   const listaDeProcessos = [
     {
       idprocesso: 1,
       title: 'Bolsa de Pesquisa FUNCAP',
       status: 'Em andamento',
-      course: 'ADS' 
-    },
-    {
-      idprocesso: 2,
-      title: 'Bolsa de desenvolvimento web',
-      status: 'Em andamento',
       course: 'Eng. de Software' 
     },
     {
-      idprocesso: 3,
+      idprocesso: 2,
       title: 'Bolsa FUNCAP de React Native',
       status: 'Encerrado',
       course: 'Eng. de Software' 
     },
     {
-      idprocesso: 4,
+      idprocesso: 3,
       title: 'Bolsa de desenvolvimento web',
       status: 'Encerrado',
+      course: 'Eng. de Software' 
+    },
+    {
+      idprocesso: 4,
+      title: 'Bolsa FUNCAP',
+      status: 'Em andamento',
       course: 'Eng. de Software' 
     },
   ];
@@ -40,36 +40,40 @@ const DashboardEstudante = () => {
   const handleEditarProcesso = (idprocesso: number) => {
     setIdProcessoSelecionado(idprocesso);
   }
+  const handleBuscar = () => {
+    const processosFiltrados = listaDeProcessos.filter(processo => processo.status === selectedStatus);
+    setProcessosFiltrados(processosFiltrados);
+  }
+
+  const [processosFiltrados, setProcessosFiltrados] = useState(listaDeProcessos);
 
   return (
     <div>
       <NavBar/>
       <S.Container>
-        <S.TituloGeral>Aqui é o portal do Aluno, você pode ver todas as bolsas que você se inscreveu!</S.TituloGeral>
+        <S.TituloGeral>Aqui é o portal do Aluno, você pode ver todas as suas informações e as bolsas que você se inscreveu!</S.TituloGeral>
         <S.Box>
-          <S.DropDown>
-              <option disabled selected hidden>Selecione...</option>
-              <option value="Encerrado">Encerrado</option>
-              <option value="Em andamento">Em andamento</option>
+          <S.DropDown onChange={(e) => setSelectedStatus(e.target.value)}>
+            <option disabled selected hidden>Selecione...</option>
+            <option value="Encerrado">Encerrado</option>
+            <option value="Em andamento">Em andamento</option>
           </S.DropDown>
-          <S.BotaoBuscar type="submit">Buscar</S.BotaoBuscar>
+          <S.BotaoBuscar type="submit" onClick={handleBuscar}>Buscar</S.BotaoBuscar>
         </S.Box>
         {selectedOption === "Seus processos" && 
-          <ListaProcessos processos={listaDeProcessos} onEditarProcesso={handleEditarProcesso} />
+          <ListaProcessos processos={processosFiltrados} onEditarProcesso={handleEditarProcesso} />
         }
         {selectedOption === "Criar processo" && (
           <CriarProcesso />
         )}
         { idProcessoSelecionado !== null && (
           <Modal isOpen={true} onClose={() => setIdProcessoSelecionado(null)}>
-            <S.Titulo>Editar processo {idProcessoSelecionado}</S.Titulo>
+            <S.Titulo>Processo {listaDeProcessos.find(p => p.idprocesso === idProcessoSelecionado)?.title || ''}</S.Titulo>
             <S.Form>
-              <h3>Título</h3>
-              <S.InputBox name="title" defaultValue={listaDeProcessos.find(p => p.idprocesso === idProcessoSelecionado)?.title || ''} />
               <h3>Status</h3>
-              <S.InputBox name="status" defaultValue={listaDeProcessos.find(p => p.idprocesso === idProcessoSelecionado)?.status || ''} />
+              <S.InputBox name="status" disabled defaultValue={listaDeProcessos.find(p => p.idprocesso === idProcessoSelecionado)?.status || ''} />
               <h3>Curso</h3>
-              <S.InputBox name="course" defaultValue={listaDeProcessos.find(p => p.idprocesso === idProcessoSelecionado)?.course || ''} />
+              <S.InputBox name="course" disabled defaultValue={listaDeProcessos.find(p => p.idprocesso === idProcessoSelecionado)?.course || ''} />
             </S.Form>
             <S.BotaoBox>
               <S.Botao onClick={() => setIdProcessoSelecionado(null)}>Fechar</S.Botao>
