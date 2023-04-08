@@ -98,7 +98,7 @@ const Home = () => {
       <NavBar/>
       <S.Main>
         <S.Titulo>
-          Bolsas Disponíveis
+          NOSSAS BOLSAS
         </S.Titulo>
         <S.FiltrosBox>
           <S.DropDown onChange={handleStatusChange}>

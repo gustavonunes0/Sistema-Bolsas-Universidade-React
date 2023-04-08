@@ -21,7 +21,7 @@ export default function ListaProcessos({ processos, onEditarProcesso }: Props) {
                     <S.Titulo>{processo.title}</S.Titulo>
                     <S.Status>{processo.status}</S.Status>
                     <S.Curso>{processo.course}</S.Curso>
-                    <S.Botao onClick={() => onEditarProcesso(processo.idprocesso)}>Editar</S.Botao>
+                    <S.Botao onClick={() => onEditarProcesso(processo.idprocesso)}>Detalhes</S.Botao>
                 </S.Linha>
             ))}
         </S.Container>

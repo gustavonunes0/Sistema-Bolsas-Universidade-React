@@ -9,6 +9,7 @@ import Modal from '@/components/Modal';
 const DashboardCoords = () => {
   const [selectedOption, setSelectedOption] = useState("Seus processos");
   const [idProcessoSelecionado, setIdProcessoSelecionado] = useState<number | null>(null);
+  const [processoSelecionado, setProcessoSelecionado] = useState(null);
   
   // Array de objetos que representa a lista de processos
   const listaDeProcessos = [
@@ -45,9 +46,22 @@ const DashboardCoords = () => {
         {selectedOption === "Criar processo" && (
           <CriarProcesso />
         )}
-        {idProcessoSelecionado !== null && (
+        { idProcessoSelecionado !== null && (
           <Modal isOpen={true} onClose={() => setIdProcessoSelecionado(null)}>
-            <h1>Editar processo {idProcessoSelecionado}</h1>
+            <S.Titulo>Editar processo {idProcessoSelecionado}</S.Titulo>
+            <S.Form>
+              <h3>Título</h3>
+              <S.InputBox name="title" defaultValue={listaDeProcessos.find(p => p.idprocesso === idProcessoSelecionado)?.title || ''} />
+              <h3>Status</h3>
+              <S.InputBox name="status" defaultValue={listaDeProcessos.find(p => p.idprocesso === idProcessoSelecionado)?.status || ''} />
+              <h3>Curso</h3>
+              <S.InputBox name="course" defaultValue={listaDeProcessos.find(p => p.idprocesso === idProcessoSelecionado)?.course || ''} />
+            </S.Form>
+            <S.BotaoBox>
+              <S.Botao>Salvar</S.Botao>
+              <S.Botao>Encerrar</S.Botao>
+              <S.Botao onClick={() => setIdProcessoSelecionado(null)}>Fechar</S.Botao>
+            </S.BotaoBox>
           </Modal>
         )}
       </S.Container>

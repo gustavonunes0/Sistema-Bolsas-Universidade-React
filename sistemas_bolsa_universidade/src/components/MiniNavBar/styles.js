@@ -6,7 +6,7 @@ export const HeaderContainer = styled.header`
   height: 3rem;
   display: flex;
   justify-content: center;
-  background-color: #eaeaea;
+  background-color: #fbf9f9;
   position: fixed;
   font-family: 'Lato', sans-serif;
   `;

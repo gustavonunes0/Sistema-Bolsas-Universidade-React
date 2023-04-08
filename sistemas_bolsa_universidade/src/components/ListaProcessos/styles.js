@@ -12,7 +12,8 @@ export const Container = styled.div`
 
 export const Linha = styled.div`
   width: 100%;
-  height: 3.5rem;
+  min-height: 3.5rem;
+  height: auto;
   border-top: 1px solid #f4f4f4;
   border-bottom: 1px solid #f4f4f4;
   align-items: center;

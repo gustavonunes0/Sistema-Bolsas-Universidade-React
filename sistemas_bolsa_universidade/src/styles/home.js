@@ -83,8 +83,7 @@ export const BotaoModal = styled.button`
 
 export const Titulo = styled.h1`
   padding: 2.5%;
-  font-size: 3rem;
-  font-style: italic;
+  font-size: 5rem;
   font-weight: bolder;
   color: #2B8A6F;
 `;

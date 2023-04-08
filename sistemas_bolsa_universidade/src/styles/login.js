@@ -33,5 +33,11 @@ export const Botao = styled.button`
   font-size: 1.4rem;
   font-weight: bolder;
   color: #2B8A6F;
-  box-shadow: 0rem 0.5rem 1rem 0rem #c4c4c4;
+  box-shadow: .2rem .2rem 0rem 0rem #2B8A6F;
+  
+  &:hover{
+    color: #f4f4f4;
+    background-color: #2B8A6F;
+    box-shadow: .2rem .2rem 0rem 0rem #fff;
+  }
 `;
