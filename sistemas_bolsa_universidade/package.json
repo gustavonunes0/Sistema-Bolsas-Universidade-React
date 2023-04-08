@@ -20,6 +20,7 @@
     "typescript": "5.0.3"
   },
   "devDependencies": {
-    "@types/styled-components": "^5.1.26"
+    "@types/styled-components": "^5.1.26",
+    "next": "13.2.4"
   }
 }
