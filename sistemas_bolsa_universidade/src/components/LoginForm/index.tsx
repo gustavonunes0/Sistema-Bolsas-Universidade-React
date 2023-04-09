@@ -32,17 +32,15 @@ const LoginForm: React.FC = () => {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       };
   
-      const userResponse = await axios.get('http://localhost:5000/user', config);
-
       window.alert("Deu certo")
-      console.log(userResponse.data);
       router.push('/');
+      console.log(response.data);
     } catch (error) {
+      window.alert("Email ou senha incorretos")      
       console.log(error.response.data);
       setError(error.response.data.message);
     }
   };
-  
   
 
   return (

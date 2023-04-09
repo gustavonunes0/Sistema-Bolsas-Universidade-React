@@ -78,8 +78,8 @@ const RegisterForm = () => {
         value={role}
         onChange={(event) => setRole(event.target.value)}
       >
-        <option value="coordinator">Coordenador</option>
-        <option value="student">Estudante</option>
+        <option value="Coordenador">Coordenador</option>
+        <option value="Estudante">Estudante</option>
       </S.DropDown>
       <S.Botao type="submit">Registrar</S.Botao>
     </S.Form>
