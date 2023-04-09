@@ -9,7 +9,7 @@ interface User {
   id: string;
   name: string;
   email: string;
-  role: 'Estudante' | 'Coordenador'; // Adicione a propriedade role aqui
+  role: 'Estudante' | 'Coordenador'; 
   password: string;
   course: string;
   historic: string;
