@@ -7,7 +7,7 @@ export const Container = styled.div`
   width: 100%;
   height: 100%;
   z-index: 0;
-  background-color: rgba(0, 0, 0, 0.8); // altera a opacidade aqui
+  background-color: rgba(0, 0, 0, 0.6); // altera a opacidade aqui
 `;
 
 export const Modal = styled.div`

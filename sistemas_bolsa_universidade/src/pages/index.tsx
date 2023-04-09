@@ -1,93 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import Head from 'next/head'
-import * as S from "../styles/home";
-import NavBar from '@/components/Navbar'
-import Card from '@/components/Card'
+import Head from 'next/head';
+import * as S from '../styles/home';
+import NavBar from '@/components/Navbar';
+import Card from '@/components/Card';
 import Modal from '@/components/Modal';
+import axios from 'axios';
+import router, { useRouter } from 'next/router';
 
-const cardsData = [
-  {
-    title: 'Bolsa de pesquisa FUNCAP',
-    course: 'ADS',
-    status: 'Encerrado',
-    postId: 1,
-    startDate: '02/01/2023',
-    endDate: '02/03/2023',
-    details: 'Essa bolsa é direcionada a alunos da UNIGU em parceria com a FUNCAP, iremos trabalhar pesquisando sobre inteligências artificiais',
-  },
-  {
-    title: 'Bolsa de desenvolvimento web',
-    course: 'Eng. de Software',
-    status: 'Encerrado',
-    postId: 2,
-    startDate: '02/01/2023',
-    endDate: '02/03/2023',
-    details: 'Nesta bolsa de estudo iremos desenvolver aplicações web utilizando C# para o back-end e ASP.NET para o front-end',
-  },
-  {
-    title: 'Bolsa de Modelagem 3D',
-    course: 'Ciência da Computação',
-    status: 'Aberto',
-    postId: 3,
-    startDate: '02/01/2023',
-    endDate: '02/03/2023',
-    details: '',
-  },
-  {
-    title: 'Bolsa FUNCAP para React Native',
-    course: 'Ciência da Computação',
-    status: 'Aberto',
-    postId: 4,
-    startDate: '02/01/2023',
-    endDate: '02/03/2023',
-    details: '',
-  },
-  {
-    title: 'Bolsa nova',
-    course: 'Estátistica',
-    status: 'Encerrado',
-    postId: 5,
-    startDate: '02/01/2023',
-    endDate: '02/03/2023',
-    details: '',
-  }
-];
-
-
+interface Bolsa {
+  id: string;
+  name: string;
+  course: string;
+  status: string;
+  postId: string;
+  details: string;
+  startDate: string;
+  endDate: string;
+}
 
 const Home = () => {
-  const [searchText, setSearchText] = useState('');
-  const [filteredCardsData, setFilteredCardsData] = useState(cardsData);
-  const [selectedStatus, setSelectedStatus] = useState('');
-  const [selectedCourse, setSelectedCourse] = useState('');
-  const [courseOptions, setCourseOptions] = useState<string[]>([]);
-  const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    const courses = new Set(cardsData.map((card) => card.course));
-    setCourseOptions([...courses]);
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      setLoggedIn(true);
+    } else {
+      router.push('/login');
+    }
+  }, [router]);  
+
+  const [bolsas, setBolsas] = useState<Bolsa[]>([]);
+  const [searchText, setSearchText] = useState('');
+  const [filtroStatus, setFiltroStatus] = useState('');
+  const [filtroNome, setFiltroNome] = useState('');
+  const [filtroCurso, setFiltroCurso] = useState('');
+  const [selectedPostId, setSelectedPostId] = useState<string | null>(null);
+  const [searchClicked, setSearchClicked] = useState(false);
+
+  useEffect(() => {
+    const fetchBolsas = async () => {
+      const response = await axios.get<Bolsa[]>('http://localhost:5000/processes');
+      setBolsas(response.data);
+    };
+
+    fetchBolsas();
   }, []);
 
-  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedStatus(e.target.value);
-  };
-
-  const handleCourseChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCourse(e.target.value);
-  };
-
-  const handleSearch = () => {
-    const filteredData = cardsData.filter((card) => {
-      return (
-        card.title.toLowerCase().includes(searchText.toLowerCase()) &&
-        (selectedStatus === '' || card.status === selectedStatus) &&
-        (selectedCourse === '' || card.course === selectedCourse)
-      );
-    });
-    setFilteredCardsData(filteredData);
-  };
-
-  const handleCardClick = (postId: number) => {
+  const handleCardClick = (postId: string) => {
     setSelectedPostId(postId);
   };
 
@@ -95,7 +58,40 @@ const Home = () => {
     setSelectedPostId(null);
   };
 
-  const selectedPost = selectedPostId ? cardsData.find((card) => card.postId === selectedPostId) : null;
+  const selectedPost = selectedPostId ? bolsas.find((bolsa) => bolsa.id === selectedPostId) : null;
+
+  const filteredBolsas = searchClicked ? bolsas
+    .filter((bolsa) => {
+      if (filtroStatus === '') {
+        return true;
+      }
+      return bolsa.status === filtroStatus;
+    })
+    .filter((bolsa) => {
+      if (filtroNome === '') {
+        return true;
+      }
+      return bolsa.name.toLowerCase().includes(filtroNome.toLowerCase());
+    })
+    .filter((bolsa) => {
+      if (filtroCurso === '') {
+        return true;
+      }
+      return bolsa.course === filtroCurso;
+    }) : bolsas;
+
+  const handleSearch = () => {
+    setFiltroNome(searchText);
+    setSearchClicked(true); // atualiza o estado para indicar que a busca foi clicada
+  };
+
+  const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFiltroStatus(event.target.value);
+  };
+
+  const handleCourseChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFiltroCurso(event.target.value);
+  };
 
   return (
     <>
@@ -111,23 +107,17 @@ const Home = () => {
           NOSSAS BOLSAS
         </S.Titulo>
         <S.FiltrosBox>
-          <S.DropDown onChange={handleStatusChange}>
-            <option disabled selected hidden>Selecione...</option>
-            <option value="Encerrado">Encerrado</option>
-            <option value="Aberto">Aberto</option>
-          </S.DropDown>
-          <S.DropDown onChange={handleCourseChange}>
-            <option disabled selected hidden>
-              Selecione...
-            </option>
-            {courseOptions.map((course) => (
-              <option key={course} value={course}>
-                {course}
-              </option>
-            ))}
-          </S.DropDown>
-          <S.TxtBox type='date'></S.TxtBox>
-          <S.TxtBox type='date'></S.TxtBox>
+        <S.DropDown onChange={handleStatusChange}>
+          <option value="">Todas</option>
+          <option value="Encerrada">Encerrada</option>
+          <option value="Em andamento">Em andamento</option>
+        </S.DropDown>
+        <S.DropDown onChange={handleCourseChange}>
+          <option disabled selected hidden>Selecione...</option>
+          {Array.from(new Set(bolsas.map((bolsa) => bolsa.course))).map((course) => (
+            <option key={course} value={course}>{course}</option>
+          ))}
+        </S.DropDown>
           <S.TxtBox 
             type='text' 
             placeholder='nome da bolsa' 
@@ -137,42 +127,24 @@ const Home = () => {
           <S.Botao type="submit" onClick={handleSearch}>Buscar</S.Botao>
         </S.FiltrosBox>
         <S.Container>
-          {filteredCardsData.map((card) => (
-            <div key={card.postId}>
-              <Card
-                title={card.title}
-                course={card.course}
-                status={card.status}
-                postId={card.postId}
-                details={card.details}
-                startDate={card.startDate}
-                endDate={card.endDate}
-                setSelectedPostId={setSelectedPostId}
-              />
-              {selectedPostId === card.postId && (
-                <Modal isOpen={true} onClose={() => setSelectedPostId(null)}>
-                  <S.ModalBox>
-                    <img alt="" src="/UNIGU.png" style={{width: '100%', height: '100%', borderRadius: '1.5rem 1.5rem 1rem 1rem'}} width={100} height={80}/>
-                    <S.TituloModal>{card.title}</S.TituloModal>
-                    <S.Texto>Curso: {card.course}</S.Texto>
-                    <S.Texto>Status: {card.status}</S.Texto>
-                    <S.Texto>Descrição: {card.details}</S.Texto>
-                    <S.DataInicio>Inicio: {card.startDate}</S.DataInicio>
-                    <S.DataTermino>Fim: {card.endDate}</S.DataTermino>
-                    <div style={{display: 'flex', gap: '5%', justifyContent: 'flex-end', height: '100%'}}>
-                      <S.BotaoModal onClick={() => setSelectedPostId(null)}>Fechar</S.BotaoModal>
-                      <S.BotaoModal>Inscreva-se</S.BotaoModal>
-                    </div>
-                  </S.ModalBox>
-                </Modal>
-              )}
-            </div>
-          ))}
-        </S.Container>
+        {filteredBolsas.map((bolsa) => (
+          <div key={bolsa.id}>
+            <Card
+              title={bolsa.name}
+              course={bolsa.course}
+              status={bolsa.status}
+              postId={bolsa.postId}
+              details={bolsa.details}
+              startDate={bolsa.startDate}
+              endDate={bolsa.endDate}
+              handleCardClick={handleCardClick}
+            />
+          </div>
+        ))}
+      </S.Container>
       </S.Main>
     </>
   );  
 }
 
 export default Home;
-

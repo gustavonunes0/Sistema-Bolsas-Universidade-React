@@ -20,7 +20,7 @@ export const Container = styled.div`
 
 export const FiltrosBox = styled.div`
   display: grid;
-  grid-template-columns: 13% 13% 13% 13% 23% 10%;
+  grid-template-columns: 15% 15% 25% 15%;
   width: 100%;
   gap: 2%;
   align-items: center;

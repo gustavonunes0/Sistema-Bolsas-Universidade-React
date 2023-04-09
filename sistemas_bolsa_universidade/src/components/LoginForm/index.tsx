@@ -1,32 +1,62 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import * as S from "./styles";
+import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
 
 const LoginForm: React.FC = () => {
+  const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
 
+  const router = useRouter();
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+  
     try {
-      const response = await axios.post<{ token: string }>('http://localhost:3001/login', { email, password });
+      const response = await axios.post('http://localhost:5000/user/login', {
+        name,
+        email,
+        password,
+      });
+  
+      // Armazenar o token no armazenamento local do navegador
       localStorage.setItem('token', response.data.token);
-      window.location.href = '/dashboard';
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.error || 'Ocorreu um erro, por favor tente novamente mais tarde.');
-      } else {
-        setError('Ocorreu um erro, por favor tente novamente mais tarde.');
-      }
+  
+      Cookies.set('token', response.data.token, { expires: 1 }); // o cookie expira após 1 dia
+      
+      // Configuração de cabeçalho para enviar o token como autorização
+      const config = {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      };
+  
+      const userResponse = await axios.get('http://localhost:5000/user', config);
+
+      window.alert("Deu certo")
+      console.log(userResponse.data);
+      router.push('/');
+    } catch (error) {
+      console.log(error.response.data);
+      setError(error.response.data.message);
     }
   };
+  
+  
 
   return (
     <S.Form onSubmit={handleSubmit}>
       <S.Titulo>Login</S.Titulo>
       {error && <p className="error">{error}</p>}
+      <S.Texto htmlFor="name">Nome:</S.Texto>
+      <S.TxtBox
+        type="name"
+        id="name"
+        value={name}
+        onChange={(event) => setName(event.target.value)}
+        required
+      />
       <S.Texto htmlFor="email">Email:</S.Texto>
       <S.TxtBox
         type="email"
@@ -35,7 +65,7 @@ const LoginForm: React.FC = () => {
         onChange={(event) => setEmail(event.target.value)}
         required
       />
-      <S.Texto htmlFor="password">Password:</S.Texto>
+      <S.Texto htmlFor="password">Senha:</S.Texto>
       <S.TxtBox
         type="password"
         id="password"

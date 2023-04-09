@@ -2,7 +2,6 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import * as S from "../styles/login";
-import NavBar from '@/components/Navbar'
 import LoginForm from '@/components/LoginForm';
 import RegisterForm from '@/components/RegisterForm';
 import { useState } from 'react';
@@ -24,7 +23,6 @@ export default function Login() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-        <NavBar/>
       <S.Main>
         <S.Titulo>
           Efetue o login, caso não possua uma conta registre-se!

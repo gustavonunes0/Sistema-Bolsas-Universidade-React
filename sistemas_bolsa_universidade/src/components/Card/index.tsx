@@ -2,30 +2,18 @@ import * as S from "./styles";
 import Image from "next/image";
 import React from "react";
 
-type CardProps = {
+interface CardProps {
   title: string;
   course: string;
   status: string;
+  postId: string;
   details: string;
-  postId: number;
   startDate: string;
   endDate: string;
-  setSelectedPostId: React.Dispatch<React.SetStateAction<number | null>>;
-};
+  handleCardClick: (postId: string) => void;
+}
 
-const Card: React.FC<CardProps> = ({
-  title,
-  course,
-  status,
-  postId,
-  startDate,
-  endDate,
-  setSelectedPostId,
-  details,
-}) => {
-  const handleClick = () => {
-    setSelectedPostId(postId);
-  };
+const Card = ({ title, course, status, postId, details, startDate, endDate, handleCardClick }: CardProps) => {
 
   return (
     <S.Container>
@@ -34,8 +22,8 @@ const Card: React.FC<CardProps> = ({
       <S.Curso>{course}</S.Curso>
       <S.Status>{status}</S.Status>
       <S.DataInicio>Inicio: {startDate}</S.DataInicio>
-      <S.DataTermino>Fim:{endDate}</S.DataTermino>
-      <S.Botao onClick={handleClick}>Detalhes</S.Botao>
+      <S.DataTermino>Fim: {endDate}</S.DataTermino>
+      <S.Botao onClick={() => handleCardClick(postId)}>Detalhes</S.Botao>
     </S.Container>
   );
 };

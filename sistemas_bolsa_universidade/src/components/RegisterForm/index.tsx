@@ -1,22 +1,39 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import * as S from "./styles";
+import { useRouter } from 'next/router';
 
 const RegisterForm = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('student');
+  const [course, setCourse] = useState('');
   const [error, setError] = useState<string>('');
+
+  const router = useRouter();
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+  
     try {
-      await axios.post('http://localhost:3001/register', { name, email, password, role });
-      window.location.href = '/login';
-    } catch (err: any) {
-      setError(err.response.data.error);
+      const response = await axios.post('http://localhost:5000/user/register', {
+        name,
+        email,
+        password,
+        role,
+        course
+      });
+  
+      window.alert("Deu certo")
+      router.push('/login');
+      console.log(response.data);
+    } catch (error) {
+
+      window.alert("Deu errado")      
+      console.log(error.response.data);
+      setError(error.response.data.message);
     }
   };
 
@@ -46,6 +63,13 @@ const RegisterForm = () => {
         id="password"
         value={password}
         onChange={(event) => setPassword(event.target.value)}
+        required
+      />
+      <S.TxtBox
+        type="course"
+        id="course"
+        value={course}
+        onChange={(event) => setCourse(event.target.value)}
         required
       />
       <S.Texto htmlFor="role">Você é coordenador ou estudante?</S.Texto>
